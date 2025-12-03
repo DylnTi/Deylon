@@ -14,7 +14,7 @@ public class RabbitController : MonoBehaviour
     public int maxLives = 3; 
     private int currentLives; 
     public TextMeshProUGUI livesText;
-    public float invulnerabilityTime = 0.5f;
+    public float invulnerabilityTime = 0.5f; // Durasi kebal setelah terkena hit
     private bool isInvulnerable = false;
     
     // --- PENGATURAN UI & SKOR ---
@@ -28,10 +28,9 @@ public class RabbitController : MonoBehaviour
     public GameObject winPanel;
     public GameObject pausePanel;
     
-    // --- TEXT SKOR AKHIR DI PANEL (VARIABEL DIHAPUS SESUAI PERMINTAAN) ---
-    
-    // --- KONTROL ANIMASI ---
+    // --- KONTROL ANIMASI & COLLIDER ---
     private Animator anim; 
+    private Collider2D rabbitCollider; 
 
     
     // =========================================================
@@ -41,6 +40,7 @@ public class RabbitController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>(); 
         anim = GetComponent<Animator>(); 
+        rabbitCollider = GetComponent<Collider2D>(); 
 
         score = 0f; 
         isGameOver = false;
@@ -80,7 +80,7 @@ public class RabbitController : MonoBehaviour
         // --- LOMPATAN & ANIMASI ---
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            // Tidak bisa melompat jika sedang Kinematic (sedang kebal/freeze)
+            // Hanya bisa melompat jika game tidak di-pause dan Rigidbody tidak Kinematic
             if (Time.timeScale > 0f && rb != null && !rb.isKinematic)
             {
                 rb.AddForce(new Vector2(0f, jumpForce));
@@ -106,7 +106,7 @@ public class RabbitController : MonoBehaviour
 
     
     // =========================================================
-    // FUNGSI TABRAKAN
+    // FUNGSI TABRAKAN (Hanya mengecek "Obstacle")
     // =========================================================
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -116,43 +116,53 @@ public class RabbitController : MonoBehaviour
             isGrounded = true; 
         }
 
-        // Tabrakan dengan Rintangan
-        // (Semua rintangan disamakan damagenya menjadi 1)
-        if (collision.gameObject.CompareTag("Obstacle") || collision.gameObject.CompareTag("HeavyObstacle"))
+        // Tabrakan dengan Rintangan (HANYA mengecek tag "Obstacle")
+        if (collision.gameObject.CompareTag("Obstacle"))
         {
+            // 1. CEK: Jika sudah Game Over atau sudah Invulnerable, KELUAR
             if (isGameOver || isInvulnerable) 
             {
                 return;
             }
-
-            // --- 1. LOGIKA DAMAGE (1 HATI UNTUK SEMUA) ---
-            currentLives -= 1;
             
+            // --- EKSEKUSI DAMAGE & PENCEGAHAN SEGERA ---
+            
+            // 2. Cegah double hit: SET isInvulnerable = true SEGERA
+            isInvulnerable = true; 
+            
+            // 3. LOGIKA DAMAGE (Mengurangi 1 nyawa)
+            currentLives -= 1;
             UpdateLivesUI();
 
-            // --- 2. ANTI-DORONGAN & ANTI-JATUH ---
+            // 4. Hentikan Coroutine lama (Penting untuk mencegah timing bug)
+            StopAllCoroutines(); 
+
+            // 5. ANTI-DORONGAN & ANTI-JATUH (Freeze sesaat)
             if (rb != null)
             {
-                rb.velocity = Vector2.zero; // Hentikan kecepatan instan
+                rb.velocity = Vector2.zero; 
                 rb.angularVelocity = 0f;
-                rb.isKinematic = true; // Kunci: Menghentikan Gravitasi dan Forces
+                rb.isKinematic = true; // Set Kinematic untuk freeze posisi
+            }
+            
+            // 6. Nonaktifkan Collider SEGERA sebelum Coroutine dimulai
+             if (rabbitCollider != null) 
+            {
+                rabbitCollider.enabled = false; 
             }
 
-            // --- 3. CEK GAME OVER ---
+            // 7. CEK GAME OVER
             if (currentLives <= 0)
             {
                 isGameOver = true; 
-                Time.timeScale = 0f; 
+                Time.timeScale = 0f; // Hentikan Game
                 
-                if (gameOverPanel != null)
-                {
-                    // Hanya set active panel, tidak ada update skor akhir
-                    gameOverPanel.SetActive(true); 
-                }
+                if (gameOverPanel != null) gameOverPanel.SetActive(true); 
                 if (pausePanel != null) pausePanel.SetActive(false); 
             }
             else
             {
+                // Mulai mode kebal
                 StartCoroutine(BecomeInvulnerable());
             }
         }
@@ -164,15 +174,7 @@ public class RabbitController : MonoBehaviour
     
     private IEnumerator BecomeInvulnerable()
     {
-        isInvulnerable = true; 
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        Collider2D rabbitCollider = GetComponent<Collider2D>(); 
-
-        // Nonaktifkan Collider sementara untuk menghindari hit berulang
-        if (rabbitCollider != null) 
-        {
-            rabbitCollider.enabled = false;
-        }
         
         // Logika Kedip (Flashing)
         float startTime = Time.time;
@@ -180,11 +182,13 @@ public class RabbitController : MonoBehaviour
         {
             if (spriteRenderer != null)
             {
+                // Toggle sprite visibility untuk efek kedip
                 spriteRenderer.enabled = !spriteRenderer.enabled; 
             }
             yield return new WaitForSeconds(0.1f);
         }
         
+        // Pastikan sprite terlihat kembali
         if (spriteRenderer != null)
         {
             spriteRenderer.enabled = true;
@@ -193,19 +197,18 @@ public class RabbitController : MonoBehaviour
         // Aktifkan kembali Collider dan Dynamic setelah kebal selesai
         if (!isGameOver)
         {
-            // Mengembalikan status Dynamic agar gravitasi aktif kembali
             if (rb != null)
             {
-                rb.isKinematic = false;
+                rb.isKinematic = false; // Kembalikan gravitasi (Dynamic)
             }
             
             if (rabbitCollider != null)
             {
-                rabbitCollider.enabled = true;
+                rabbitCollider.enabled = true; // Aktifkan Collider
             }
         }
 
-        isInvulnerable = false; 
+        isInvulnerable = false; // Matikan mode kebal
     }
 
     void UpdateLivesUI()
@@ -222,11 +225,13 @@ public class RabbitController : MonoBehaviour
 
         if (Time.timeScale == 0f)
         {
+            // Unpause
             Time.timeScale = 1f;
             if (pausePanel != null) pausePanel.SetActive(false); 
         }
         else 
         {
+            // Pause
             Time.timeScale = 0f;
             if (pausePanel != null) pausePanel.SetActive(true);  
         }
@@ -235,11 +240,10 @@ public class RabbitController : MonoBehaviour
     void HandleGameWin()
     {
         isGameOver = true; 
-        Time.timeScale = 0f; 
+        Time.timeScale = 0f; // Freeze game
         
         if (winPanel != null)
         {
-            // Hanya set active panel, tidak ada update skor akhir
             winPanel.SetActive(true);
         }
     }

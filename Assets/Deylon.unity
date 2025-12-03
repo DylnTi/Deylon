@@ -390,7 +390,7 @@ GameObject:
   - component: {fileID: 142287968}
   m_Layer: 0
   m_Name: Raven Enemy (6)
-  m_TagString: HeavyObstacle
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -589,7 +589,7 @@ GameObject:
   - component: {fileID: 209843453}
   m_Layer: 0
   m_Name: Raven Enemy (3)
-  m_TagString: HeavyObstacle
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -783,7 +783,7 @@ GameObject:
   - component: {fileID: 230610820}
   m_Layer: 0
   m_Name: Raven Enemy (2)
-  m_TagString: HeavyObstacle
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1160,7 +1160,7 @@ Transform:
   m_GameObject: {fileID: 284501064}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 82.29, y: 2, z: 0}
+  m_LocalPosition: {x: 81.6288, y: 1.7094, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1207,12 +1207,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 020a9b2b3fda4df4188c362a9021c8fa, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e936bb82c64796548af2ed8593c7a1ca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 187.72058, y: -6.361181}
+  m_Size: {x: 187.26306, y: -7.1237183}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1497,7 +1497,7 @@ Transform:
   m_GameObject: {fileID: 387667420}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.2, y: -1.41, z: 0}
+  m_LocalPosition: {x: -9.3, y: -1.56, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3345,7 +3345,7 @@ GameObject:
   - component: {fileID: 785003563}
   m_Layer: 0
   m_Name: Raven Enemy (1)
-  m_TagString: HeavyObstacle
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3845,7 +3845,7 @@ GameObject:
   - component: {fileID: 943938772}
   m_Layer: 0
   m_Name: Raven Enemy
-  m_TagString: HeavyObstacle
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7456,7 +7456,7 @@ GameObject:
   - component: {fileID: 1560900306}
   m_Layer: 0
   m_Name: Raven Enemy (4)
-  m_TagString: HeavyObstacle
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7934,7 +7934,7 @@ GameObject:
   - component: {fileID: 1822270567}
   m_Layer: 0
   m_Name: Raven Enemy (7)
-  m_TagString: HeavyObstacle
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8297,7 +8297,7 @@ Transform:
   m_GameObject: {fileID: 1847490674}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 87.27, y: -1.2044, z: 0.0378823}
+  m_LocalPosition: {x: 86.6976, y: -1.26, z: 0.0378823}
   m_LocalScale: {x: 1, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8349,7 +8349,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 191.03734, y: 1.0762538}
+  m_Size: {x: 190.96217, y: 0.9906808}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -8392,7 +8392,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1, y: 1}
-    newSize: {x: 191.03734, y: 1.0762538}
+    newSize: {x: 190.96217, y: 0.9906808}
     adaptiveTilingThreshold: 0.5
     drawMode: 2
     adaptiveTiling: 0
@@ -8991,7 +8991,7 @@ GameObject:
   - component: {fileID: 1958411691}
   m_Layer: 0
   m_Name: Raven Enemy (5)
-  m_TagString: HeavyObstacle
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
