@@ -1518,7 +1518,7 @@ MonoBehaviour:
   jumpForce: 700
   maxLives: 3
   livesText: {fileID: 1275231964}
-  invulnerabilityTime: 0.5
+  invulnerabilityTime: 1
   scoreText: {fileID: 334368565}
   gameOverPanel: {fileID: 760670789}
   winPanel: {fileID: 1480350539}
